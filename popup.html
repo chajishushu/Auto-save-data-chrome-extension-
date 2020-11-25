@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Auto Save</title>
+	<style>
+		body {
+			font-family: 'Microsoft Yahei';
+			width: 700px;
+			min-height: 100px;
+		}
+
+		a {
+			margin-right: 10px;
+		}
+
+		div {
+			border: 1px solid black;
+		}
+
+		#head {
+			width: 900px;
+			height: 30px;
+			position: relative;
+		}
+
+		#head>#colseImg {
+			position: absolute;
+			top: 0px;
+		}
+
+		#head>#save_cookies {
+			position: absolute;
+			top: 0px;
+			left: 500px;
+		}
+
+		#data_info {
+			margin-top: 10px;
+			position: relative;
+			min-height: 50px;
+			height: auto;
+		}
+
+		#save_button {
+			position: absolute;
+			top: 30px;
+			right: 20px;
+		}
+
+		#xpath_info {
+			position: relative;
+			border: none;
+		}
+
+
+		#xpath_info>#query_info {
+			/* position: absolute;
+			top: 0;
+			left: 0; */
+			border: none;
+		}
+		#xpath_info>#query_info>div:first-of-type {
+			/* position: absolute;
+			top: 0;
+			left: 0; */
+			border: none;
+			width: 365px;
+		}
+
+		#xpath_info>#result_info {
+			position: absolute;
+			top: 0;
+			right: 0;
+			border: none;
+		}
+
+		#xpath_info>#result_info>textarea {
+			max-width: 230px;
+			min-width: 230px;
+			width: 230px;
+			min-height: 40px;
+			height: 40px;
+			font-size: 13.3px;
+		}
+
+		.middle_content {
+			margin-top: 10px;
+			height:200px;
+			position: relative;
+		}
+
+		#auto_next_page {
+			position: absolute;
+			width: 60%;
+			height: 200px;
+			/* margin-top: 10px; */
+			box-sizing: border-box;
+		}
+
+		#Instructions {
+			position: absolute;
+			right: 0;
+			width: 40%;
+			height: 200px;
+			box-sizing: border-box;
+		}
+
+		#make_excels {
+			
+			margin-top: 10px;
+			
+		}
+
+	</style>
+        
+</head>
+
+<body>
+	<h1>Auto_Save_Crawler</h1>
+	<div id="save_button">
+		<input type="button" id="the_save_button" value="点击存储信息" >
+	</div>
+	<div id="_save_db">
+		<label><input type="radio" name="save_db" value="存储数据到local">存储数据到local</label>
+		<label><input type="radio" name="save_db" value="存储数据到couchdb">存储数据到couchdb</label>
+	</div>
+	<div id="data_info">
+		<div id="_save_type">
+			<label><input type="radio" name="save_type" value="存储xpath">存储xpath</label>
+			<label><input type="radio" name="save_type" value="存储整页">存储整页</label>
+			<label><input type="radio" name="save_type" value="存储cookies">存储cookies</label>
+		</div>
+		<div id="xpath_info">
+			<div id="query_info">
+				<div>Input (<span id="xpath-count">2</span>)</div>
+				<table border="1" cellspacing="0" id="tab1">
+					<tr>
+						<td><label><span>key:</span><input type="text" class="data_name" placeholder="请输入信息名称"
+									value=""></label></td>
+						<td><label><span>xpath:</span><input type="text" class="xpath" placeholder="请输入xpath路径"
+									value=""></label></td>
+					</tr>
+				</table>
+				<input type="button" value="增加一行xpath选择器......" id="add_button">
+			</div>
+			
+			<div id="result_info">
+				<div>Results (<span id="node-count">0</span>)</div>
+				<textarea name="result" id="textarea1"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="middle_content" id="next_page_info" >
+		<div id="auto_next_page">
+			<div id="next_page_check">
+				<label>&nbsp;是否使用自动翻页:&nbsp;&nbsp;<input type="checkbox" name="save_info" checked="checked"></label>
+			</div>
+
+			<div id='next_page_data'>
+				<div id="colseImg">
+					<label>&nbsp;是否关闭图片加载:&nbsp;&nbsp;<input type="checkbox" checked="checked" value=""></label>
+				</div>
+				<table id="next_page_table">
+					<tr>
+						<td><label>&nbsp;下一页xpath:&nbsp;&nbsp;<input type="text" id="next_page_xpath"
+									placeholder="请输入下一页xpath" value=""></label></td>
+						<td><label>&nbsp;翻页间隔时间:&nbsp;&nbsp;<input type="number" id="next_page_timedelta" placeholder="请输入翻页间隔时间"
+									value="2">秒</label></td>
+					</tr>
+				</table>
+				<div id="_next_page_button">
+					<input type="button" id="next_page_button" value="自动翻页存储">
+					<input type="button" id="stop_next_button" value="停止翻页存储">
+					<span>(注:会自动翻页存储直到没有输入的下一页xpath为止,想要提前手动终止翻页请按 ctrl+shift+Q键)</span>
+				</div>
+			</div>
+		</div>
+		<div id="Instructions">
+			<ul>插件快捷键介绍:
+				<li>ctrl+shift+A(存页面到couchdb)</li>
+				<li>ctrl+shift+A(存页面到couchdb)</li>
+				<li>ctrl+shift+A(存页面到couchdb)</li>
+				<li>ctrl+shift+A(存页面到couchdb)</li>
+				<li>ctrl+shift+A(存页面到couchdb)</li>
+				<li>ctrl+shift+A(存页面到couchdb)</li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	<script src="js/jquery-1.8.3.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/popup.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+{
+	// 清单文件的版本，这个必须写，而且必须是2
+	"manifest_version": 2,
+	// 插件的名称
+	"name": "auto_save",
+	// 插件的版本
+	"version": "1.0.1",
+	// 插件描述
+	"description": "page_info_auto_saver",
+	// 图标，一般偷懒全部用一个尺寸的也没问题
+	"icons":
+	{
+		"16": "img/icon.png",
+		"32": "img/icon32.png",
+		"48": "img/icon48.png",
+		"64": "img/icon64.png",
+		"128": "img/icon128.png"
+	},
+	// 会一直常驻的后台JS或后台页面
+	"background":
+	{
+		// 2种指定方式，如果指定JS，那么会自动生成一个背景页
+		"page": "background.html"
+	},
+	"browser_action": 
+	{
+		"default_icon": "img/icon.png",
+		"default_title": "auto_save_page"
+	},
+	"content_scripts": 
+	[
+		{
+			//"matches": ["http://*/*", "https://*/*"],
+			// "<all_urls>" 表示匹配所有地址
+			"matches": ["<all_urls>"],
+			// 多个JS按顺序注入
+			"js": ["js/jquery-1.8.3.js", "js/content-script.js"],
+			// JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
+			"css": ["css/content_scripts.css"],
+			// 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
+			"run_at": "document_idle"
+		}
+	],
+	"permissions": ["tabs", "contextMenus", "downloads","storage","cookies","http://*/*","https://*/*"],
+	"commands": {
+		"save_page_source":{
+			 "suggested_key": {
+			 	"default":"Ctrl+Shift+A",
+			 	"mac": "Command+Shift+A"
+			 },
+			 "description":"保存网页内容到couchdb"
+		},
+		"save_page_cookies":{
+			"suggested_key": {
+			 	"default":"Ctrl+Shift+Z",
+			 	"mac": "Command+Shift+Z"
+			 },
+			 "description":"保存网页cookies到couchdb"
+		}
+	}
+
+}
