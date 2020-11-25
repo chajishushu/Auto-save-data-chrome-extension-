@@ -1,12 +1,14 @@
-下载并安装CouchDB：
+第一步(下载并安装CouchDB):
 
 https://couchdb.apache.org/#download
 
 测试：
 
 于CMD下，执行 curl localhost:5984
+
 打开 http://localhost:5984/_utils/fauxton/ 或 http://localhost:5984/_utils/ 以进入 CouchDB界面
-Set _utilsp CORS （用于跨域）
+
+第二步(Set _utilsp CORS 用于跨域):
 
 安装：于CMD下，执行 npm install -g add-cors-to-couchdb
 运行：于CMD下，执行 add-cors-to-couchdb
